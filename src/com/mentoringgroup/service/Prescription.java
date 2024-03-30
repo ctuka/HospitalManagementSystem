@@ -48,47 +48,23 @@ public class Prescription {
         dosages.add(dosage);
     }
 
-    public Doctor getDoctor() {
-        return doctor;
-    }
-
-    public void setDoctor(Doctor doctor) {
-        this.doctor = doctor;
-    }
-
-    public Patient getPatient() {
-        return patient;
-    }
-
-    public void setPatient(Patient patient) {
-        this.patient = patient;
-    }
-
-    public String getDiagnosis() {
-        return diagnosis;
-    }
-
-    public void setDiagnosis(String diagnosis) {
-        this.diagnosis = diagnosis;
-    }
-
     public void cancelPrescription() {
         // Confirmation process to make sure this is not an accidental request.
+        Scanner sc = new Scanner(System.in);
         boolean cancelBool;
         do {
             cancelBool = false;
-            Scanner sc = new Scanner(System.in);
             System.out.println("You are about to CANCEL a prescription! Are you sure you want to continue?" +
-                    "\n1 - yes, proceed\n0 - no, recall");
+                    "\n1 - Yes, proceed\n0 - No, recall");
             confCancel = sc.nextInt();
 
             if (confCancel == 1) {
                 canceled = true;
+                System.out.println("Prescription cancelled successfully!");
             } else if (confCancel == 0) {
                 System.out.println("System recalled!");
-                break;
             } else {
-                System.err.println("INVALID DATA ... Please try again!");
+                System.err.println("INVALID CHOICE ... Please try again!");
                 cancelBool = true;
             }
         } while (cancelBool);
@@ -100,10 +76,10 @@ public class Prescription {
 
     public void editPrescription(List<String> newMedicines, List<String> newDosages) {
         // Confirmation process ...
+        Scanner sc = new Scanner(System.in);
         boolean editBool;
         do {
             editBool = false;
-            Scanner sc = new Scanner(System.in);
             System.out.println("You are about to CANCEL a prescription! Are you sure you want to continue?" +
                     "\n1 - yes, proceed\n0 - no, recall");
             confEdit = sc.nextInt();
@@ -111,14 +87,15 @@ public class Prescription {
             if (confEdit == 1) {
                 medicines.clear();
                 dosages.clear();
-
-                for (int i = 0; i < newMedicines.size(); i++) {
-                    medicines.add(newMedicines.get(i));
-                    dosages.add(newDosages.get(i));
-                }
+                medicines.addAll(newMedicines);
+                dosages.addAll(newDosages);
+//                for (int i = 0; i < newMedicines.size(); i++) {
+//                    medicines.add(newMedicines.get(i));
+//                    dosages.add(newDosages.get(i));
+//                }
+                System.out.println("Prescription edited successfully!");
             } else if (confEdit == 0) {
                 System.out.println("System recalled!");
-                break;
             } else {
                 System.err.println("INVALID DATA ... Please try again!");
                 editBool = true;
@@ -146,7 +123,37 @@ public class Prescription {
     }
 
     public void printPrescription() {
+        System.out.println("Prescription for:");
+        // In the 2 lines of code below I need someone to add getters and setters in Doctor and Patient classes!
+        // System.out.println("Doctor: " + doctor.getName() + " " + doctor.getSurname());
+        // System.out.println("Patient: " + patient.getName() + " " + patient.getSurname());
+        System.out.println("Diagnosis: " + diagnosis);
+        System.out.println("Medicines:");
         viewPrescription();
+    }
+
+    public Doctor getDoctor() {
+        return doctor;
+    }
+
+    public void setDoctor(Doctor doctor) {
+        this.doctor = doctor;
+    }
+
+    public Patient getPatient() {
+        return patient;
+    }
+
+    public void setPatient(Patient patient) {
+        this.patient = patient;
+    }
+
+    public String getDiagnosis() {
+        return diagnosis;
+    }
+
+    public void setDiagnosis(String diagnosis) {
+        this.diagnosis = diagnosis;
     }
 
 }
