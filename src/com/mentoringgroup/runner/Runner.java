@@ -39,7 +39,7 @@ public class Runner {
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
         }
-        return new Patient();
+        return null;
     }
 
     public void viewPatientInfo(String idNumber) {
@@ -75,7 +75,7 @@ public class Runner {
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
         }
-        return new Doctor();
+        return null;
     }
     public void viewDoctorInfo(String idNumber) {
         for (Doctor doctor : patientList) {

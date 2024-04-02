@@ -6,7 +6,7 @@ import com.mentoringgroup.runner.Runner;
 public class App {
     public static void main(String[] args) {
 
-        Starting.run();
+        Starting.start();
 
 
     }
