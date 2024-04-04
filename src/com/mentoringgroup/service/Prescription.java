@@ -9,43 +9,111 @@ import java.util.Scanner;
 
 public class Prescription {
 
-    // FIELDS:
-    //----------
-    // Doctor doctor
-    // Patient patient
-    //----------
-    // LIST as medicines
-    // LIST as dosages
-    //----------
-
     private Doctor doctor;
     private Patient patient;
-    private String diagnosis;
-    private List<String> medicines;
-    private List<String> dosages;
-    private int confCancel, confEdit;
+    private String diagnosis, medicine, dosage;
+    private List<String> medicines, newMedicines;
+    private List<String> dosages, newDosages;
+    private int confCancel, confEdit, confWrite;
     private boolean canceled;
 
     public Prescription(Doctor doctor, Patient patient, String diagnosis) {
-
         this.doctor = doctor;
         this.patient = patient;
         this.diagnosis = diagnosis;
         this.medicines = new ArrayList<>();
         this.dosages = new ArrayList<>();
         this.canceled = false;
-
     }
 
-    // A (security check)-type of method in ADMIN class, accessible to other classes, including this one.
-    // ex: public static void SecurityCheck(Doctor_info) {
-    // CODE BLOCK ---> check doctor's name/surname, ID and extra info. Or just a password.
-    // }
+    public void prescEntrance() {
+        // Let's assume that doctors have password always beginning with "DOC"
+        // And patients always beginning with "PAT"
+        Scanner sc = new Scanner(System.in);
+        boolean pr;
+        do {
+            pr = false;
+            System.out.print("Welcome to prescriptions section! \nPlease provide your identification [DOC or PAT]: ");
+            String docpat = sc.next();
 
-    public void writePrescription(String medicine, String dosage) {
+            switch (docpat) {
+                case "DOC":
+                    // System.out.print("You have entered as a doctor. \nPlease provide your ID: ");
+                    System.out.println("You have entered as a doctor - MENU: ");
+                    System.out.println("1 - Write Prescription ||| 2 - Update Prescription" +
+                                    "\n3 - Cancel Prescription ||| 4 - View Prescription" +
+                                    "\n0 - EXIT");
+                    int doc = sc.nextInt();
+
+                    if (doc == 1) {
+                        writePrescription();
+                    } else if (doc == 2) {
+                        editPrescription();
+                    } else if (doc == 3) {
+                        cancelPrescription();
+                    } else if (doc == 4) {
+                        printPrescription();
+                    } else if (doc == 0) {
+                        System.out.println("EXIT MADE!");
+                    } else {
+                        System.err.println("ERROR - Invalid input ::: Please try again!");
+                        pr = true;
+                    }
+                    break;
+
+                case "PAT":
+                    System.out.println("You have entered as a patient - MENU: ");
+                    System.out.println("1 - View Prescription ||| 0 - EXIT");
+                    int pat = sc.nextInt();
+
+                    if (pat == 1) {
+                        printPrescription();
+                    } else if (pat == 0) {
+                        System.out.println("EXIT MADE!");
+                    } else {
+                        System.err.println("ERROR - Invalid Input ::: Please try again!");
+                        pr = true;
+                    }
+                    break;
+
+                default:
+                    System.err.println("ERROR - Invalid Input ::: Please try again!");
+                    pr = true;
+            }
+        } while (pr);
+    }
+
+    public void writePrescription() {
         // Information content. (medicines, dosages, timePeriod, etc)
-        medicines.add(medicine);
-        dosages.add(dosage);
+        Scanner sc = new Scanner(System.in);
+        boolean writeBool;
+        do {
+            writeBool = false;
+            System.out.println("You are about to write a new prescription! Do you want to proceed:\n1 - Yes\n0 - No, EXIT");
+            confWrite = sc.nextInt();
+
+            switch (confWrite) {
+                case 1:
+                    System.out.print("Write medicine: ");
+                    medicine = sc.nextLine();
+                    System.out.println("Write dosage: ");
+                    dosage = sc.nextLine();
+                    medicines.add(medicine);
+                    dosages.add(dosage);
+                    System.out.println("Prescription written successfully!");
+                    prescEntrance();
+                    break;
+
+                case 0:
+                    System.out.println("EXIT MADE!");
+                    prescEntrance();
+                    break;
+
+                default:
+                    System.err.println("ERROR - Invalid Input ::: Please try again!");
+                    writeBool = true;
+            }
+        } while (writeBool);
     }
 
     public void cancelPrescription() {
@@ -61,8 +129,10 @@ public class Prescription {
             if (confCancel == 1) {
                 canceled = true;
                 System.out.println("Prescription cancelled successfully!");
+                prescEntrance();
             } else if (confCancel == 0) {
                 System.out.println("System recalled!");
+                prescEntrance();
             } else {
                 System.err.println("INVALID CHOICE ... Please try again!");
                 cancelBool = true;
@@ -74,7 +144,7 @@ public class Prescription {
         return canceled;
     }
 
-    public void editPrescription(List<String> newMedicines, List<String> newDosages) {
+    public void editPrescription() {
         // Confirmation process ...
         Scanner sc = new Scanner(System.in);
         boolean editBool;
@@ -94,8 +164,10 @@ public class Prescription {
 //                    dosages.add(newDosages.get(i));
 //                }
                 System.out.println("Prescription edited successfully!");
+                prescEntrance();
             } else if (confEdit == 0) {
                 System.out.println("System recalled!");
+                prescEntrance();
             } else {
                 System.err.println("INVALID DATA ... Please try again!");
                 editBool = true;
@@ -104,13 +176,6 @@ public class Prescription {
     }
 
     public void viewPrescription() {
-        // Here there is need for getters and setters from DOCTOR/PATIENT classes!!!
-
-//      System.out.println("Doctor: " + doctor.getName() + " " + doctor.getSurname());
-//      System.out.println("Patient: " + patient.getName() + " " + patient.getSurname());
-//      System.out.println("Diagnosis: " + diagnosis);
-//      System.out.println("Medicines:");
-
         for (int i = 0; i < medicines.size(); i++) {
             System.out.println(" - " + medicines.get(i) + " (" + dosages.get(i) + ")");
         }
@@ -130,6 +195,8 @@ public class Prescription {
         System.out.println("Diagnosis: " + diagnosis);
         System.out.println("Medicines:");
         viewPrescription();
+        System.out.println("------------------------");
+        prescEntrance();
     }
 
     public Doctor getDoctor() {
