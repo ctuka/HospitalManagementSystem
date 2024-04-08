@@ -1,24 +1,30 @@
 package com.mentoringgroup.app;
 
+import com.mentoringgroup.entities.Doctor;
+
 import java.util.Scanner;
+
+import static com.mentoringgroup.entities.Admin.adminLogin;
 
 public class Starting {
 
-    public static void start(){
+    public static void start() throws InterruptedException {
         Scanner input = new Scanner(System.in);
         int select;
         boolean exit = true;
         do {
             System.out.println("----------- Welcome to Hospital Management System -----------");
-            System.out.println("\n\s1- Admin           2- Doctor \n\n\s3- Patient         0-Exit");
-            System.out.print("\n\nEnter number of the selection: ");
+            System.out.println("1- Admin\n" +
+                    "2- Doctor\n" +
+                    "3- Patient\n" +
+                    "0-Exit");
             select = input.nextInt();
             switch (select){
                 case 1:
-                    System.out.println("Admin page"); // you can call Admin page
+                    adminLogin(); // you can call Admin page
                     break;
                 case 2:
-                    System.out.println("Doctor page"); // you can call Doctor page
+                    //Doctor.doctorLogin(); // you can call Doctor page
                     break;
                 case 3:
                     System.out.println("Patient page"); // you can call Patient page
@@ -34,7 +40,16 @@ public class Starting {
 
 
         }while (exit);
-    }
+        stopProject();
 
+    }
+    public static void stopProject() {
+        System.out.println("You exited from Application");
+        System.exit(0);
+    }
+    public static void blockProject() {
+        System.out.println("You are blocked!");
+        System.exit(0);
+    }
 
 }
