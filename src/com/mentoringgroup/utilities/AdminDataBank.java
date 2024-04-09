@@ -1,16 +1,13 @@
 package com.mentoringgroup.utilities;
 
-import com.mentoringgroup.app.Starting;
-import com.mentoringgroup.entities.Admin;
-
 import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Scanner;
-import java.util.Set;
+import java.util.*;
+
+import com.mentoringgroup.app.Starting;
+import com.mentoringgroup.entities.Admin;
 
 public class AdminDataBank extends Util{
 
@@ -58,6 +55,7 @@ public class AdminDataBank extends Util{
         do {
             System.out.println("Please enter Authorization Code");
             entrance=scan.nextInt();
+            scan.nextLine();
             if (entrance==code){
                 System.out.println("""
                         1 - Add a new Admin
@@ -85,8 +83,9 @@ public class AdminDataBank extends Util{
                     case "5":
                         adminList();
                         break;
-                    case "6":
-                    Admin.mainMenu();
+                    case "A":
+                    case "a":
+                        Admin.mainMenu();
                         break;
                     case "Q":
                     case "q":
@@ -104,46 +103,44 @@ public class AdminDataBank extends Util{
     }
     public static void createAdmin() throws InterruptedException {
 
-             String choice=null;
+        String choice;
+        boolean condition;
 
-            do {
-                System.out.println("Enter - add new admin information\n" +
-                        "M - Management Menu");
-                if (!choice.equalsIgnoreCase("m")){
-                    break;
-                }else {
+        do {
+            condition=false;
+            System.out.println("y - to continue\n" +
+                    "N - Menu");
+            choice = scan.next();
+            scan.nextLine();
 
-                    setAdminId(adminId);
-                    setAdminPassword(adminPassword);
-                    setAdminName(adminName);
-                    setAdminLastName(adminLastName);
-                    setAdminBirthDate(adminBirthDate);
-                    setGender(gender);
-                    setPhoneNumber(phoneNumber);
-                    setStreetName(streetName);
-                    setHouseNumber(houseNumber);
-                    setPostalCode(postalCode);
-                    setCity(city);
-                    setAddress(address);
+            if (choice.equalsIgnoreCase("n")) {
+                continue;
+            }
+            else if(choice.equalsIgnoreCase("y")){
+                setAdminId(null);
+                setAdminPassword(null);
+                setAdminName(null);
+                setAdminLastName(null);
+                setAdminBirthDate(null);
+                setGender(null);
+                setPhoneNumber(null);
+                setStreetName(null);
+                setHouseNumber(null);
+                setPostalCode(null);
+                setCity(null);
+                setAddress(null);
 
-                    String admin = getAdminName() + "- " + getAdminLastName() + "- " + getAdminBirthDate() + "- " +getGender() + "- "+ getPhoneNumber() + "- " + getAddress();
+                String admin = getAdminName() + "- " + getAdminLastName() + "- " + getAdminBirthDate() + "- " + getGender() + "- " + getPhoneNumber() + "- " + getAddress();
 
-                    idPassword.put(getAdminId(), getAdminPassword());
-                    adminInfo.put(getAdminId(), admin);
-
-                    Set<Map.Entry<String, String>> adminLoginInfoList = idPassword.entrySet();
-                    for (Map.Entry<String, String> w : adminLoginInfoList) {
-                        System.out.println(w.getKey() + " " + w.getValue());
-                    }
-                }
-
-
-
-            }while (!choice.equalsIgnoreCase("m"));
-            management();
+                idPassword.put(getAdminId(), getAdminPassword());
+                adminInfo.put(getAdminId(), admin);
+                condition=true;
 
 
+            }
 
+
+        }while (condition);
 
     }
     public static void getAdminInfoById() throws InterruptedException {//gets admin's info and put them into a set
@@ -166,31 +163,67 @@ public class AdminDataBank extends Util{
                 eachValueList = eachValue.split("- ");
                 if (id.equals(eachKey)){
                     System.out.println(
-                            "\nId Number:             " + eachKey +
-                                    "\nName:                  " + eachValueList[0] +
-                                    "\nLast Name:             " + eachValueList[1] +
-                                    "\nBirth Date:            " + eachValueList[2] +
-                                    "\nGender:                " + eachValueList[3] +
-                                    "\nPhone Number:          " + eachValueList[4] +
-                                    "\nAddress                " + eachValueList[5]);
+                            "\nId Number             :" + eachKey +
+                                    "\nName                  :" + eachValueList[0] +
+                                    "\nLast Name             :" + eachValueList[1] +
+                                    "\nBirth Date            :" + eachValueList[2] +
+                                    "\nGender                :" + eachValueList[3] +
+                                    "\nPhone Number          :" + eachValueList[4] +
+                                    "\nAddress               :" + eachValueList[5]);
                     break;
                 }
             }
             if (!id.equals(eachKey)){
-            System.out.println("Invalid Id!");}
+                System.out.println("Invalid Id!");}
 
         }while (!id.equals(eachKey));
 
     }
 
-    public static void updateAdminInfo(){
-
+    public static void updateAdminInfo() throws InterruptedException {
+        String id;
+        do {
+            System.out.println("Enter the ID number of the manager to update the Information or press 0 to return menu");
+            id = scan.next();
+            if (id.equalsIgnoreCase("0")){
+                management();
+                break;
+            }
+            for (Map.Entry<String, String> w : adminInfo.entrySet()) {
+                eachKey = w.getKey();
+                eachValue = w.getValue();
+                eachValueList = eachValue.split("- ");
+                if (id.equals(eachKey)) {
+                    adminInfo.replace(id, updatedAdminInfo());
+                    break;
+                }
+            }
+            if (!id.equals(eachKey)){
+                System.out.println("Invalid Id!");
+            }
+        }while (!id.equals(eachKey));
     }
+    public static String updatedAdminInfo() throws InterruptedException {
+
+        setAdminName(null);
+        setAdminLastName(null);
+        setAdminBirthDate(null);
+        setGender(null);
+        setPhoneNumber(null);
+        setStreetName(null);
+        setHouseNumber(null);
+        setPostalCode(null);
+        setCity(null);
+        setAddress(null);
+        return getAdminName()+ "- " +getAdminLastName()+ "- "+getAdminBirthDate()+ "- "+getGender() +"- " +getPhoneNumber()+"- " +getAddress();
+    }
+
     public static void deleteAdmin() throws InterruptedException {
         String id;
         do {
             System.out.println("Enter Admin Id to remove or '0' to Main Menu");
             id= scan.next();
+            scan.nextLine();
 
             if (id.equals("0")){
                 management();
@@ -232,7 +265,7 @@ public class AdminDataBank extends Util{
 
         do {
             System.out.println("Enter your Id");
-            adminId = scan.nextLine();
+            adminId = scan.next();
             if (adminId.length()==5) {
                 AdminDataBank.adminId = adminId;
                 break;
@@ -251,7 +284,8 @@ public class AdminDataBank extends Util{
         do {
             System.out.println("Please enter a new password.\n" +
                     "And it must have at least 6 characters");
-            adminPassword = scan.nextLine();
+            adminPassword = scan.next();
+            scan.nextLine();
             if (adminPassword.length()>5) {
                 AdminDataBank.adminPassword = adminPassword;
                 break;
@@ -270,7 +304,7 @@ public class AdminDataBank extends Util{
 
     public static void setAdminName(String adminName) {
         do {
-            System.out.println("Please enter your name");
+            System.out.println("Please enter Admin name");
             adminName= scan.nextLine();
             if (!adminName.isEmpty()) {
                 AdminDataBank.adminName = adminName;
@@ -294,11 +328,130 @@ public class AdminDataBank extends Util{
                 break;
             }else {
                 System.out.println("Last name cannot be empty");
-                Thread.sleep(1000);
+
             }
         }while(true);
+        Thread.sleep(1000);
+
+    }
+    public static String getGender() {
+        return gender;
+    }
+
+    public static void setGender(String gender) {
+        do {
+            System.out.println("Enter admins gender");
+            gender = scan.nextLine();
+            if (gender.equalsIgnoreCase("male")||gender.equalsIgnoreCase("female")){
+                AdminDataBank.gender = gender;
+                break;
+            }else {
+                System.out.println("Invalid gender!");
+            }
+        }while (true);
+
+    }
 
 
+    public static String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    @SuppressWarnings("ReassignedVariable")
+    public static void setPhoneNumber(String phoneNumber) throws InterruptedException {
+        do {
+            System.out.println("Please Enter your Phone number");
+            phoneNumber = scan.nextLine();
+            if (!phoneNumber.isBlank()){
+                AdminDataBank.phoneNumber = phoneNumber;
+                break;
+            }else {
+                System.out.println("Phone number cannot be empty!");
+                Thread.sleep(1000);
+            }
+
+        }while (true);
+    }
+
+    public static String getStreetName() {
+        return streetName;
+    }
+
+    public static void setStreetName(String streetName) throws InterruptedException {
+        do {
+            System.out.println("Enter your street");
+            streetName = scan.nextLine();
+            if (!streetName.isBlank()){
+                AdminDataBank.streetName = streetName;
+                break;
+            }else {
+                System.out.println("Street cannot be empty!");
+                Thread.sleep(1000);
+            }
+        }while (true);
+    }
+
+    public static String getHouseNumber() {
+        return houseNumber;
+    }
+
+    public static void setHouseNumber(String houseNumber) {
+        do {
+            System.out.println("Enter your house number");
+            houseNumber = scan.nextLine();
+            if (!houseNumber.isBlank()){
+                AdminDataBank.houseNumber = houseNumber;
+                break;
+            }else {
+                System.out.println("House number cannot be empty!");
+            }
+        }while (true);
+    }
+
+    public static String getPostalCode() {
+        return postalCode;
+    }
+
+    public static void setPostalCode(String postalCode) throws InterruptedException {
+        do {
+            System.out.println("Enter postal code");
+            postalCode = scan.next();
+            scan.nextLine();
+            if (!postalCode.isBlank()) {
+                AdminDataBank.postalCode = postalCode;
+                break;
+            } else {
+                System.out.println("Postal code cannot be empty");
+                Thread.sleep(1000);
+            }
+        }while (true);
+    }
+
+    public static String getCity() {
+        return city;
+    }
+
+    public static void setCity(String city) {
+        do {
+            System.out.println("Enter your city");
+            System.out.print("");
+            city = scan.nextLine();
+            if (!city.isBlank()){
+                AdminDataBank.city = city;
+                break;
+            }else {
+                System.out.println("City cannot be empty!");
+            }
+        }while (true);
+    }
+
+    public static String getAddress() {
+        return address;
+    }
+
+    public static void setAddress(String address) {
+        address = getStreetName()+" "+ getHouseNumber()+" " +getPostalCode()+" "+getCity();
+        AdminDataBank.address = address;
     }
 
     public static String getAdminBirthDate() {
@@ -359,159 +512,6 @@ public class AdminDataBank extends Util{
             System.out.println("Invalid date. Please enter a valid date.");
             return false;
         }
-    }
-
-    public static String getGender() {
-        return gender;
-    }
-
-    public static void setGender(String gender) {
-        do {
-            System.out.println("Enter admins gender");
-            gender = scan.nextLine();
-            if (gender.equalsIgnoreCase("male")||gender.equalsIgnoreCase("female")){
-                AdminDataBank.gender = gender;
-                break;
-            }else {
-                System.out.println("Invalid gender!");
-            }
-        }while (true);
-
-    }
-
-    /*public static void setAdminBirthDate(String adminBirthDate) throws InterruptedException {
-        int day;
-        int month;
-        int year;
-        LocalDate ld = LocalDate.now();
-        int nowYear =ld.getYear();
-        int bYear = nowYear-25;
-        int sYear = nowYear-65;
-        boolean birth;
-        LocalDate bd ;
-        do {
-            System.out.println("birth day");
-            day = scan.nextInt();
-            System.out.println("birth month");
-            month = scan.nextInt();
-            System.out.println("birth year");
-            year = scan.nextInt();
-            System.out.println();
-            bd = LocalDate.of(year,month,day);
-            age = ld.getYear()-bd.getYear();
-            birth = (day>0&&day<=31&&month>0&&month<=12&year>sYear&&year<=bYear);
-            if (birth){
-                adminBirthDate=year+"-"+month+"-"+day;
-                System.out.println(adminBirthDate);
-                System.out.println(age);
-
-                AdminDataBank.adminBirthDate = adminBirthDate;
-            }else {
-                System.out.println("Please enter your birth date correctly");
-                Thread.sleep(1000);
-            }
-
-        }while (!birth);
-        AdminDataBank.adminBirthDate = adminBirthDate;
-    }*/
-
-    public static String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    @SuppressWarnings("ReassignedVariable")
-    public static void setPhoneNumber(String phoneNumber) throws InterruptedException {
-        do {
-            System.out.println("Please Enter your Phone number");
-            phoneNumber = scan.nextLine();
-            if (!phoneNumber.isBlank()){
-                AdminDataBank.phoneNumber = phoneNumber;
-                break;
-            }else {
-                System.out.println("Phone number cannot be empty!");
-                Thread.sleep(1000);
-            }
-
-        }while (true);
-    }
-
-    public static String getStreetName() {
-        return streetName;
-    }
-
-    public static void setStreetName(String streetName) throws InterruptedException {
-        do {
-            System.out.println("Enter your street");
-            streetName = scan.nextLine();
-           if (!streetName.isBlank()){
-               AdminDataBank.streetName = streetName;
-               break;
-           }else {
-               System.out.println("Street cannot be empty!");
-               Thread.sleep(1000);
-           }
-        }while (true);
-    }
-
-    public static String getHouseNumber() {
-        return houseNumber;
-    }
-
-    public static void setHouseNumber(String houseNumber) {
-        do {
-            System.out.println("Enter your house number");
-            houseNumber = scan.nextLine();
-            if (!houseNumber.isBlank()){
-                AdminDataBank.houseNumber = houseNumber;
-                break;
-            }else {
-                System.out.println("House number cannot be empty!");
-            }
-        }while (true);
-    }
-
-    public static String getPostalCode() {
-        return postalCode;
-    }
-
-    public static void setPostalCode(String postalCode) throws InterruptedException {
-        do {
-            System.out.println("Enter postal code");
-            postalCode = scan.next();
-            if (!postalCode.isBlank()) {
-                AdminDataBank.postalCode = postalCode;
-                break;
-            } else {
-                System.out.println("Postal code cannot be empty");
-                Thread.sleep(1000);
-            }
-        }while (true);
-    }
-
-    public static String getCity() {
-        return city;
-    }
-
-    public static void setCity(String city) {
-        do {
-            System.out.println("Enter your city");
-            city = scan.nextLine();
-            if (!city.isBlank()){
-                AdminDataBank.city = city;
-                break;
-            }else {
-                System.out.println("City cannot be empty!");
-            }
-        }while (true);
-    }
-
-    public static String getAddress() {
-        return address;
-    }
-
-    public static void setAddress(String address) {
-        address = getStreetName()+" "+ getHouseNumber()+" " +getPostalCode()+" "+getCity();
-        AdminDataBank.address = address;
     }
 
 }

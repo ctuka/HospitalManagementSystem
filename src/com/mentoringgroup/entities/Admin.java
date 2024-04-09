@@ -11,13 +11,7 @@ public class Admin {
     static Scanner scan = new Scanner(System.in);
     private static String adminId=AdminDataBank.getAdminId();
     private static String adminPassword=AdminDataBank.getAdminPassword();
-    private static String adminName=AdminDataBank.getAdminName();
-    private static String adminLastName=AdminDataBank.getAdminLastName();
-    private static String adminBirthDate=AdminDataBank.getAdminBirthDate();
-    private static String adminPhoneNumber=AdminDataBank.getPhoneNumber();
-    private static String adminAddress=AdminDataBank.getAddress();
-    private static String eachValue;
-    private static String[] eachValueList;
+
     static String id;
     static String password;
 
@@ -125,7 +119,7 @@ public class Admin {
                     //Patient.patientList();
                     break;
                 case "5":
-                    //updatePatientInfo();
+                    //Patient.updatePatientInfo();
                     break;
                 case "6":
                     //Doctor.addDoctor();
