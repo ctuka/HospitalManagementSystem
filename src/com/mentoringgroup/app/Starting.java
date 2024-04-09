@@ -17,9 +17,9 @@ public class Starting {
         Scanner input = new Scanner(System.in);
         Doctor doc = new Doctor("Yns", "Kka", "7",
                 "Mht 05", "927349", "Surgeon");
-        Patient pat = new Patient("Kja", "Dda", "9", new Address(17, "Mhm", "NYC", "NY", 12461), 27,
+        Patient pat = new Patient("Sarah", "Kater", "9", new Address(17, "Mhm", "NYC", "NY", 12461), 27,
         "87325961", "Female", 9, "Fever");
-        Prescription presc = new Prescription(doc, pat, "Headache");
+        Prescription presc = new Prescription(doc, pat, "Fever");
         int select;
         boolean exit = true;
         do {

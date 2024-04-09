@@ -190,7 +190,7 @@ public class Prescription {
     }
 
     public static void printPrescription() {
-        System.out.println("Prescription for:");
+        System.out.println("Prescription: ");
         // In the 2 lines of code below I need someone to add getters and setters in Doctor and Patient classes!
         // System.out.println("Doctor: " + doctor.getName() + " " + doctor.getSurname());
         // System.out.println("Patient: " + patient.getName() + " " + patient.getSurname());
