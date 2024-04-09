@@ -3,6 +3,7 @@ package com.mentoringgroup.service;
 import com.mentoringgroup.entities.Doctor;
 import com.mentoringgroup.entities.Patient;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -11,11 +12,11 @@ public class Prescription {
 
     private Doctor doctor;
     private Patient patient;
-    private String diagnosis, medicine, dosage;
-    private List<String> medicines, newMedicines;
-    private List<String> dosages, newDosages;
-    private int confCancel, confEdit, confWrite;
-    private boolean canceled;
+    private static String diagnosis, medicine, dosage;
+    private static List<String> medicines, newMedicines;
+    private static List<String> dosages, newDosages;
+    private static int confCancel, confEdit, confWrite;
+    private static boolean canceled;
 
     public Prescription(Doctor doctor, Patient patient, String diagnosis) {
         this.doctor = doctor;
@@ -26,7 +27,7 @@ public class Prescription {
         this.canceled = false;
     }
 
-    public void prescEntrance() {
+    public static void prescEntrance() {
         // Let's assume that doctors have password always beginning with "DOC"
         // And patients always beginning with "PAT"
         Scanner sc = new Scanner(System.in);
@@ -83,7 +84,7 @@ public class Prescription {
         } while (pr);
     }
 
-    public void writePrescription() {
+    public static void writePrescription() {
         // Information content. (medicines, dosages, timePeriod, etc)
         Scanner sc = new Scanner(System.in);
         boolean writeBool;
@@ -91,10 +92,11 @@ public class Prescription {
             writeBool = false;
             System.out.println("You are about to write a new prescription! Do you want to proceed:\n1 - Yes\n0 - No, EXIT");
             confWrite = sc.nextInt();
+            sc.nextLine();
 
             switch (confWrite) {
                 case 1:
-                    System.out.print("Write medicine: ");
+                    System.out.println("Write medicine: ");
                     medicine = sc.nextLine();
                     System.out.println("Write dosage: ");
                     dosage = sc.nextLine();
@@ -116,7 +118,7 @@ public class Prescription {
         } while (writeBool);
     }
 
-    public void cancelPrescription() {
+    public static void cancelPrescription() {
         // Confirmation process to make sure this is not an accidental request.
         Scanner sc = new Scanner(System.in);
         boolean cancelBool;
@@ -140,11 +142,11 @@ public class Prescription {
         } while (cancelBool);
     }
 
-    public boolean isCanceled() {
+    public static boolean isCanceled() {
         return canceled;
     }
 
-    public void editPrescription() {
+    public static void editPrescription() {
         // Confirmation process ...
         Scanner sc = new Scanner(System.in);
         boolean editBool;
@@ -175,7 +177,7 @@ public class Prescription {
         } while (editBool);
     }
 
-    public void viewPrescription() {
+    public static void viewPrescription() {
         for (int i = 0; i < medicines.size(); i++) {
             System.out.println(" - " + medicines.get(i) + " (" + dosages.get(i) + ")");
         }
@@ -187,7 +189,7 @@ public class Prescription {
         }
     }
 
-    public void printPrescription() {
+    public static void printPrescription() {
         System.out.println("Prescription for:");
         // In the 2 lines of code below I need someone to add getters and setters in Doctor and Patient classes!
         // System.out.println("Doctor: " + doctor.getName() + " " + doctor.getSurname());

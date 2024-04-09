@@ -1,8 +1,12 @@
 package com.mentoringgroup.entities;
 
+import com.mentoringgroup.service.Prescription;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Scanner;
+
+import static com.mentoringgroup.service.Prescription.prescEntrance;
 
 public class Doctor {
     public static String name;
@@ -126,7 +130,8 @@ public class Doctor {
             System.out.println("2. Remove a doctor ( press 2 )");
             System.out.println("3. View doctor information ( press 3 )");
             System.out.println("4. Update information of a doctor ( press 4 )");
-            System.out.println("5. Exit ( press 5 )");
+            System.out.println("6. Prescriptions section");
+            System.out.println("7. Exit");
             System.out.print("Enter your choice: ");
             int choice = input.nextInt();
             input.nextLine();
@@ -157,7 +162,9 @@ public class Doctor {
                     String idToUpdate = input.nextLine();
                     updateDocInfo(doclist, idToUpdate, input);
                     break;
-                case 5:
+                case 6:
+                    prescEntrance();
+                case 7:
                     System.out.println("Exiting Doctor Management System. Goodbye!");
                     return;
                 default:
